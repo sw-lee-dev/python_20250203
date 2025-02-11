@@ -9,7 +9,7 @@
 
 # 1. 정적 웹 크롤링
 # - 웹사이트가 JavaScript 없이 정적인 HTML을 반환하는 경우
-# - requests + BeautifulSoup 사용
+# - requests + BeautifulSoup(library) 사용
 # - 속도가 빠르고 간단함
 
 ##################################################
@@ -51,7 +51,11 @@
 
 ##################################################
 
+from selenium import webdriver
+from time import sleep
 
+driver = webdriver.Chrome()
+driver.get('https://naver.com')
 
 ##################################################
 
@@ -69,7 +73,14 @@
 
 ##################################################
 
+from selenium.webdriver.common.by import By
 
+# element = driver.find_element(By.CSS_SELECTOR, '#account > div > p')
+# elements = driver.find_elements(By.TAG_NAME, 'p')
+# for element in elements:
+#     print(element.text)
+
+login_button = driver.find_element(By.CSS_SELECTOR, '#account > div > a')
 
 ##################################################
 
@@ -82,7 +93,7 @@
 # search_box = driver.find_element(By.NAME, "query")
 # search_box.send_keys("Python Selenium 크롤링")
 
-# search_box.send_keys(Keys.RETURN)
+# search_box.send_keys(Keys.RETURN) > Enter
 
 # time.sleep(3)
 
@@ -94,7 +105,34 @@
 
 ##################################################
 
+login_button.click()
 
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
+import pyperclip
+
+id_input = driver.find_element(By.ID, 'id')
+pyperclip.copy("qwer1234") # 클립보드에 text 복사
+id_input.click()
+action = ActionChains(driver)
+action.key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+
+sleep(1)
+
+pw_input = driver.find_element(By.ID, 'pw')
+pyperclip.copy("qwer1234")
+pw_input.click()
+action = ActionChains(driver)
+action.key_down(Keys.CONTROL).send_keys('v').key_up(Keys.CONTROL).perform()
+
+sleep(1)
+
+pw_input.send_keys(Keys.RETURN)
+
+# login_button = driver.find_element(By.ID, 'log.login')
+# login_button.click()
+
+sleep(1)
 
 ##################################################
 
@@ -129,7 +167,9 @@
 
 ##################################################
 
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+sleep(2)
 
 ##################################################
 
